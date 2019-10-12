@@ -1,21 +1,18 @@
 import React from 'react'
 
-import { useSelector, useDispatch } from "react-redux";
-import { deleteTodo, toggleTodo } from "../actions/TodoActions";
+import { useStoreState } from "easy-peasy";
 
 import Todo from "./todo";
 
 export default function TodoList() {
-  const dispatch = useDispatch()
-  const todos = useSelector(state => state.todos)
-
+  const todos = useStoreState(states => states.todos.items)
   // toggleDone
   const toggleDone = (todo) => {
     // const changedTodo = todo
     // changedTodo.done = !changedTodo.done
     // todos[todos.indexOf(todo)] = changedTodo
     // setTodos([...todos])
-    dispatch(toggleTodo(todo))
+    console.log(todo)
   }
 
   return (
@@ -29,7 +26,7 @@ export default function TodoList() {
       <section className="section">
         <div className="container">
           {todos.map(todo => (
-            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={() => dispatch(deleteTodo(todo))}/>
+            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={() => console.log(todo)}/>
           ))}
         </div>
       </section>

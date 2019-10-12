@@ -1,16 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 
-import { useDispatch } from "react-redux";
-import { add } from "../actions/TodoActions";
+import { useStoreActions } from "easy-peasy";
 
 export default function Navbar() {
   const [menu, setMenu] = useState(false)
   const [value, setValue] = useState("")
-  const dispatch = useDispatch()
+  const add = useStoreActions(actions => actions.todos.add)
 
   const addTodo = (e) => {
     e.preventDefault()
-    dispatch(add(value))
+    add(value)
     setValue("")
   }
 

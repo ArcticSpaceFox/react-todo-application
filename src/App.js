@@ -1,21 +1,32 @@
 import React from 'react';
 
-import { Provider } from "react-redux";
+import { createStore, action, StoreProvider } from "easy-peasy";
 
 import Navbar from "./components/navabar";
 import TodoList from "./components/todolist";
 
-import {allReducers} from "./reducer";
-import { createStore } from 'redux';
-
-const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore({
+  todos: {
+    items: [],
+    add: action((state, payload) => {
+      state.items.push({
+        "id": Date.now(),
+        "value": payload,
+        "done": false
+      })
+    }),
+    del: action((state, payload) => {
+      state.map(todo => todo.id === payload.id ? '' : todo)
+    })
+  }
+})
 
 function App() {
   return (
-    <Provider store={store}>
+    <StoreProvider store={store}>
       <Navbar/>
       <TodoList/>
-    </Provider>
+    </StoreProvider>
   );
 }
 
