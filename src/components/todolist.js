@@ -1,23 +1,21 @@
-import React, {useContext} from 'react'
+import React from 'react'
 
-import { TodoContext } from "../TodoContext";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteTodo, toggleTodo } from "../actions/TodoActions";
 
 import Todo from "./todo";
 
 export default function TodoList() {
-  const [todos, setTodos] = useContext(TodoContext);
+  const dispatch = useDispatch()
+  const todos = useSelector(state => state.todos)
 
   // toggleDone
   const toggleDone = (todo) => {
-    const changedTodo = todo
-    changedTodo.done = !changedTodo.done
-    todos[todos.indexOf(todo)] = changedTodo
-    setTodos([...todos])
-  } 
-  // delete
-  const deleteTodo = (todo) => {
-    const _todos = todos.filter(_todo => _todo !== todo)
-    setTodos(_todos)
+    // const changedTodo = todo
+    // changedTodo.done = !changedTodo.done
+    // todos[todos.indexOf(todo)] = changedTodo
+    // setTodos([...todos])
+    dispatch(toggleTodo(todo))
   }
 
   return (
@@ -31,7 +29,7 @@ export default function TodoList() {
       <section className="section">
         <div className="container">
           {todos.map(todo => (
-            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={deleteTodo}/>
+            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={() => dispatch(deleteTodo(todo))}/>
           ))}
         </div>
       </section>

@@ -1,19 +1,16 @@
 import React, { useState, useContext } from 'react'
 
-import { TodoContext } from "../TodoContext";
+import { useDispatch } from "react-redux";
+import { add } from "../actions/TodoActions";
 
 export default function Navbar() {
-  const [todos, setTodos] = useContext(TodoContext)
   const [menu, setMenu] = useState(false)
   const [value, setValue] = useState("")
+  const dispatch = useDispatch()
 
   const addTodo = (e) => {
     e.preventDefault()
-    setTodos([...todos, {
-      "id": Date.now(),
-      "value": value,
-      "done": false
-    }])
+    dispatch(add(value))
     setValue("")
   }
 
