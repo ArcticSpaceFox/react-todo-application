@@ -8,7 +8,7 @@ function Todo(props) {
         <div className="level">
           <div className="level-left">
             <div className="level-item">
-              <p className={`title ${props.todo.done ? "has-text-primary" : ""}`}>{props.todo.value}</p>
+              <p className={`title ${props.todo.done ? "has-text-grey-light" : ""}`}>{props.todo.value}</p>
             </div>
           </div>
           <div className="level-right">

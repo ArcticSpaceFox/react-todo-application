@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 
 export class Todo {
   @observable value
@@ -13,6 +13,7 @@ export class Todo {
 
 export class TodoStore {
   @observable todos = []
+  @observable filter = ""
 
   @action addTodo = (value) => {
     this.todos.push(new Todo(value))
@@ -22,5 +23,10 @@ export class TodoStore {
   }
   @action deleteTodo = (todo) => {
     this.todos = this.todos.filter(t => t !== todo)
+  }
+
+  @computed get filteredTodos () {
+    const matchCase = new RegExp(this.filter, "i")
+    return this.todos.filter(todo=> !this.filter || matchCase.test(todo.value))
   }
 }

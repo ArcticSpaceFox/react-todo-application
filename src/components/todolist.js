@@ -4,7 +4,7 @@ import Todo from "./todo";
 import { observer } from 'mobx-react';
 
 function TodoList(props) {
-  const {todos, toggleDone, deleteTodo} = props.store
+  const { todos, toggleDone, deleteTodo, filteredTodos } = props.store
 
   return (
     <div>
@@ -16,8 +16,14 @@ function TodoList(props) {
 
       <section className="section">
         <div className="container">
-          {todos.map(todo => (
-            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={deleteTodo}/>
+          <input className="input" placeholder="Search..." type="text" value={props.store.filter} onChange={(e) => props.store.filter = e.target.value} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          {filteredTodos.map(todo => (
+            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={deleteTodo} />
           ))}
         </div>
       </section>
