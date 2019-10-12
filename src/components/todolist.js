@@ -1,24 +1,10 @@
-import React, {useContext} from 'react'
-
-import { TodoContext } from "../TodoContext";
+import React from 'react'
 
 import Todo from "./todo";
+import { observer } from 'mobx-react';
 
-export default function TodoList() {
-  const [todos, setTodos] = useContext(TodoContext);
-
-  // toggleDone
-  const toggleDone = (todo) => {
-    const changedTodo = todo
-    changedTodo.done = !changedTodo.done
-    todos[todos.indexOf(todo)] = changedTodo
-    setTodos([...todos])
-  } 
-  // delete
-  const deleteTodo = (todo) => {
-    const _todos = todos.filter(_todo => _todo !== todo)
-    setTodos(_todos)
-  }
+function TodoList(props) {
+  const {todos, toggleDone, deleteTodo} = props.store
 
   return (
     <div>
@@ -38,3 +24,5 @@ export default function TodoList() {
     </div>
   )
 }
+
+export default observer(TodoList)

@@ -1,6 +1,7 @@
 import React from 'react'
+import { observer } from 'mobx-react'
 
-export default function Todo(props) {
+function Todo(props) {
   return (
     <div className="card">
       <div className="card-content">
@@ -21,3 +22,5 @@ export default function Todo(props) {
     </div>
   )
 }
+
+export default observer(Todo)

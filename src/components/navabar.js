@@ -1,19 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
+import { observer } from 'mobx-react'
 
-import { TodoContext } from "../TodoContext";
-
-export default function Navbar() {
-  const [todos, setTodos] = useContext(TodoContext)
+function Navbar(props) {
   const [menu, setMenu] = useState(false)
   const [value, setValue] = useState("")
+  
+  const {addTodo} = props.store
 
-  const addTodo = (e) => {
+  const prepareAddTodo = (e) => {
     e.preventDefault()
-    setTodos([...todos, {
-      "id": Date.now(),
-      "value": value,
-      "done": false
-    }])
+    addTodo(value)
     setValue("")
   }
 
@@ -34,7 +30,7 @@ export default function Navbar() {
       <div className={`navbar-menu ${menu ? "is-active" : ""}`}>
         <div className="navbar-end">
           <div className="navbar-item">
-            <form onSubmit={addTodo} className="field has-addons">
+            <form onSubmit={prepareAddTodo} className="field has-addons">
               <p className="control is-expanded">
                 <input value={value} type="text" onChange={(e) => setValue(e.target.value)} className="input" />
               </p>
@@ -50,3 +46,5 @@ export default function Navbar() {
     </div>
   )
 }
+
+export default observer(Navbar)
