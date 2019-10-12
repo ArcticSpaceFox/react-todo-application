@@ -16,10 +16,10 @@ const store = createStore({
       })
     }),
     del: action((state, payload) => {
-      state.items.filter(_todo => _todo !== payload)
+      state.items.splice(state.items.indexOf(payload), 1)
     }),
     toggle: action((state, payload) => {
-      state.items.map(todo => todo === payload ? todo.done = !todo.done : todo)
+      state.items = state.items.map(todo => todo.id === payload.id ? {...todo, done: !todo.done} : todo)
     })
   }
 })
