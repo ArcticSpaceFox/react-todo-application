@@ -1,18 +1,20 @@
 import React from 'react'
 
-import { useStoreState } from "easy-peasy";
+import { useStoreState, useStoreActions } from "easy-peasy";
 
 import Todo from "./todo";
 
 export default function TodoList() {
   const todos = useStoreState(states => states.todos.items)
+  const del = useStoreActions(actions => actions.todos.del)
+  const toggle = useStoreActions(actions => actions.todos.toggle)
   // toggleDone
   const toggleDone = (todo) => {
     // const changedTodo = todo
     // changedTodo.done = !changedTodo.done
     // todos[todos.indexOf(todo)] = changedTodo
     // setTodos([...todos])
-    console.log(todo)
+    toggle(todo)
   }
 
   return (
@@ -26,7 +28,7 @@ export default function TodoList() {
       <section className="section">
         <div className="container">
           {todos.map(todo => (
-            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={() => console.log(todo)}/>
+            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={() => del(todo)}/>
           ))}
         </div>
       </section>
