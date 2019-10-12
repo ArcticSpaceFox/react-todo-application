@@ -10,7 +10,7 @@ export const TodoProvider = (props) => {
       "done": false
     },
     {
-      "id": Date.now(),
+      "id": Date.now() + 1,
       "value": "Play with doge",
       "done": false  
     }

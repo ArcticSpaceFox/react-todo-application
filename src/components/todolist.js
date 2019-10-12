@@ -1,33 +1,37 @@
-import React from 'react'
+import React, {useContext} from 'react'
+
+import { TodoContext } from "../TodoContext";
 
 import Todo from "./todo";
 
 export default function TodoList() {
-  const todos = [
-    {
-      "id": Date.now(),
-      "value": "Buy milk",
-      "done": false
-    },
-    {
-      "id": Date.now(),
-      "value": "Play with doge",
-      "done": false  
-    }
-  ]
+  const [todos, setTodos] = useContext(TodoContext);
+
+  // toggleDone
+  const toggleDone = (todo) => {
+    const changedTodo = todo
+    changedTodo.done = !changedTodo.done
+    todos[todos.indexOf(todo)] = changedTodo
+    setTodos([...todos])
+  } 
+  // delete
+  const deleteTodo = (todo) => {
+    const _todos = todos.filter(_todo => _todo !== todo)
+    setTodos(_todos)
+  }
 
   return (
     <div>
       <div className="hero is-info">
         <div className="hero-body has-text-centered">
-          <p className="title is-1">Todos</p>
+          <p className="title is-1">{todos.length} Todos</p>
         </div>
       </div>
 
       <section className="section">
         <div className="container">
           {todos.map(todo => (
-            <Todo key={todo.id} todo={todo}/>
+            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={deleteTodo}/>
           ))}
         </div>
       </section>
