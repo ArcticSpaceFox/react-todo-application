@@ -5,30 +5,32 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import Todo from "./todo";
 
 export default function TodoList() {
-  const todos = useStoreState(states => states.todos.items)
-  const del = useStoreActions(actions => actions.todos.del)
-  const toggle = useStoreActions(actions => actions.todos.toggle)
-  // toggleDone
-  const toggleDone = (todo) => {
-    // const changedTodo = todo
-    // changedTodo.done = !changedTodo.done
-    // todos[todos.indexOf(todo)] = changedTodo
-    // setTodos([...todos])
-    toggle(todo)
-  }
+  // Database
+  window.dbactions = useStoreActions(actions=>actions.db)
+  window.dbstate = useStoreState(states => states.db)
+
+  // Todo
+  const {setFilter, toggle, del} = useStoreActions(actions => actions.todos)
+  const {filteredTodos, count, filter} = useStoreState(states => states.todos)
 
   return (
     <div>
       <div className="hero is-info">
         <div className="hero-body has-text-centered">
-          <p className="title is-1">{todos.length} Todos</p>
+          <p className="title is-1">{count} Todos</p>
         </div>
       </div>
+      
+      <section className="section">
+        <div className="container">
+          <input type="text" placeholder="Search..." value={filter} onChange={(e)=>setFilter(e.target.value)} className="input"/>
+        </div>
+      </section>
 
       <section className="section">
         <div className="container">
-          {todos.map(todo => (
-            <Todo key={todo.id} todo={todo} toggleDone={toggleDone} deleteTodo={() => del(todo)}/>
+          {filteredTodos.map(todo => (
+            <Todo key={todo.id} todo={todo} toggleDone={toggle} deleteTodo={() => del(todo)}/>
           ))}
         </div>
       </section>
