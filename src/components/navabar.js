@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useStoreActions, useStoreState } from 'easy-peasy';
 
 export default function Navbar() {
 	const [menu, setMenu] = useState(false);
 	const [value, setValue] = useState('');
-  const [modal, setModal] = useState(false);
+	const [modal, setModal] = useState(false);
 
-	const add = useStoreActions(actions => actions.todos.add);
-	const { connect, disconnect } = useStoreActions(actions => actions.db);
+	const {addTodo, reload} = useStoreActions(actions => actions.todos);
+	const connect = useStoreActions(actions => actions.db.connect);
+	const db = useStoreState(states => states.db.db.db);
 	const isOnline = useStoreState(states => states.db.db.isOnline);
-	const isLoading = useStoreState(states => states.db.isLoading);
 
-	const toggleOnline = () => {
-		if (isOnline) {
-			disconnect();
+	useEffect(() => {
+		if (db) {
+			db.events.on('replicated', () => reload(db))
 		} else {
-			connect();
+			connect()
 		}
-	};
+	}, [isOnline])
 
-	const addTodo = e => {
+	const addNewTodo = e => {
 		e.preventDefault();
 		setModal(false);
-		add(value);
+		addTodo(value);
 		setValue('');
 	};
 
@@ -31,9 +32,9 @@ export default function Navbar() {
 		<div>
 			<div className='navbar has-shadow'>
 				<div className='navbar-brand'>
-					<div className='navbar-item'>
+					<Link to='/' className='navbar-item'>
 						<p className='title'>Easy Todo</p>
-					</div>
+					</Link>
 
 					<p
 						role='button'
@@ -50,24 +51,28 @@ export default function Navbar() {
 				</div>
 
 				<div className={`navbar-menu ${menu ? 'is-active' : ''}`}>
+					<div className='navbar-start'>
+						<Link className='navbar-item' to='/dash'>
+							My Token
+						</Link>
+					</div>
+
 					<div className='navbar-end'>
 						<div className='navbar-item'>
 							<div className='buttons'>
 								<button
                   autoFocus
+                  disabled={!isOnline}
 									onClick={() => setModal(true)}
 									className={`button is-primary ${modal ? 'is-loading' : ''}`}
 								>
 									Add Todo
 								</button>
-								<button
-									onClick={toggleOnline}
-									className={`button ${isOnline ? 'is-light' : 'is-info'} ${
-										isLoading ? 'is-loading' : ''
-									}`}
+								<Link to='/join'
+									className="button is-info"
 								>
-									{isOnline ? 'Stop sharing' : 'Start sharing'}
-								</button>
+                  Join
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -75,9 +80,15 @@ export default function Navbar() {
 			</div>
 
 			<div className={`modal ${modal ? 'is-active' : ''}`}>
-				<div onClick={() => {setModal(false); setValue("")}} className='modal-background'></div>
+				<div
+					onClick={() => {
+						setModal(false);
+						setValue('');
+					}}
+					className='modal-background'
+				></div>
 				<div className='modal-content'>
-					<form onSubmit={addTodo} className='field has-addons is-large'>
+					<form onSubmit={addNewTodo} className='field has-addons is-large'>
 						<p className='control is-expanded'>
 							<input
 								value={value}
@@ -94,7 +105,10 @@ export default function Navbar() {
 					</form>
 				</div>
 				<button
-					onClick={() => {setModal(false); setValue("")}}
+					onClick={() => {
+						setModal(false);
+						setValue('');
+					}}
 					className='modal-close is-large'
 					aria-label='close'
 				></button>

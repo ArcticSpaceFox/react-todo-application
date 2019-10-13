@@ -13,21 +13,30 @@ export const TodoModel = {
   setFilter: action((state, payload) => {
     state.filter = payload
   }),
-	add: action((state, payload) => {
-		state.items.push({
-			id: Date.now(),
+  reload: action((state, payload) => {
+    state.items = payload.query((doc) => doc)
+  }),
+  addTodo: thunk(async (actions, payload, {getStoreState}) => {
+    const db = getStoreState().db.db.db
+    await db.put({
+			_id: Date.now(),
 			value: payload,
 			done: false
-		});
-	}),
-	del: action((state, payload) => {
-		state.items.splice(state.items.indexOf(payload), 1);
-	}),
-	toggle: action((state, payload) => {
-		state.items = state.items.map(todo =>
-			todo.id === payload.id ? { ...todo, done: !todo.done } : todo
-		);
-	})
+    })
+    actions.reload(db)
+  }),
+  delTodo: thunk(async (actions, payload, {getStoreState}) => {
+    const db = getStoreState().db.db.db
+    await db.del(payload._id)
+    actions.reload(db)
+  }),
+  toggleTodo: thunk(async(actions, payload, {getStoreState, getState}) => {
+    const db = getStoreState().db.db.db
+    const updatedTodo = getState().items.filter(t => t === payload ? t : null)[0]
+    updatedTodo.done = !payload.done
+    await db.put(updatedTodo)
+    actions.reload(db)
+  }),
 };
 
 export const TodoDB = {
@@ -59,11 +68,12 @@ export const TodoDB = {
     actions.offline()
     actions.isLoadingDone()
   }),
-  connect: thunk(async (actions, payload, {getState}) => {
+  connect: thunk(async (actions, payload, {getState, getStoreActions}) => {
     actions.isLoading()
-    if (getState().db.isOnline) actions.offline()
+    if (getState().db.isOnline) actions.disconnect()
     const [orbitdb, db] = await database(payload || "todo-app")
-    console.log(db.address.toString());
+    await db.load()
+    getStoreActions().todos.reload(db)
     actions.online({
       orbitdb: orbitdb,
       db: db

@@ -10,7 +10,7 @@ export default function TodoList() {
   window.dbstate = useStoreState(states => states.db)
 
   // Todo
-  const {setFilter, toggle, del} = useStoreActions(actions => actions.todos)
+  const {setFilter, toggleTodo, delTodo} = useStoreActions(actions => actions.todos)
   const {filteredTodos, count, filter} = useStoreState(states => states.todos)
 
   return (
@@ -30,7 +30,7 @@ export default function TodoList() {
       <section className="section">
         <div className="container">
           {filteredTodos.map(todo => (
-            <Todo key={todo.id} todo={todo} toggleDone={toggle} deleteTodo={() => del(todo)}/>
+            <Todo key={todo._id} todo={todo} toggleDone={toggleTodo} deleteTodo={() => delTodo(todo)}/>
           ))}
         </div>
       </section>
