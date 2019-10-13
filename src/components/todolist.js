@@ -9,9 +9,7 @@ export default function TodoList() {
 
   // toggleDone
   const toggleDone = (todo) => {
-    const changedTodo = todo
-    changedTodo.done = !changedTodo.done
-    todos[todos.indexOf(todo)] = changedTodo
+    todos.map(_t => _t === todo ? _t.done = !todo.done : _t)
     setTodos([...todos])
   } 
   // delete
