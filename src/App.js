@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { StoreProvider } from 'easy-peasy';
 import { store } from './store';
 
-import Navbar from './components/navabar';
+import Navbar from './components/navbar';
 import TodoList from './components/todolist';
 import Dashboard from './components/token';
 import Join from './components/join';
