@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react'
 
+import { v4 } from "uuid";
+
 import { TodoContext } from "../TodoContext";
 
 export default function Navbar() {
@@ -10,7 +12,7 @@ export default function Navbar() {
   const addTodo = (e) => {
     e.preventDefault()
     setTodos([...todos, {
-      "id": Date.now(),
+      "id": v4(),
       "value": value,
       "done": false
     }])
