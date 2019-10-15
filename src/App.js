@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { createStore, action, StoreProvider } from "easy-peasy";
+import { v4 } from "uuid";
 
 import Navbar from "./components/navabar";
 import TodoList from "./components/todolist";
@@ -10,7 +11,7 @@ const store = createStore({
     items: [],
     add: action((state, payload) => {
       state.items.push({
-        "id": Date.now(),
+        "id": v4(),
         "value": payload,
         "done": false
       })
