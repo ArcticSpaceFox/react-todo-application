@@ -1,8 +1,10 @@
+import { v4 } from "uuid";
+
 export function todo(state = [], action) {
   switch (action.type) {
     case 'ADD':
       const newTodo = {
-        "id": Date.now(),
+        "id": v4(),
         "value": action.value,
         "done": false
       }
