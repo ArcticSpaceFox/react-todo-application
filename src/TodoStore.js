@@ -1,11 +1,12 @@
 import { observable, action, computed } from "mobx";
+import { v4 } from "uuid";
 
 export class Todo {
   @observable value
   @observable done
 
   constructor (value) {
-    this.id = Date.now()
+    this.id = v4()
     this.value = value
     this.done = false
   }
