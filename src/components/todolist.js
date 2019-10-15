@@ -1,16 +1,18 @@
 import React from 'react'
 
+import { v4 } from "uuid";
+
 import Todo from "./todo";
 
 export default function TodoList() {
   const todos = [
     {
-      "id": Date.now(),
+      "id": v4(),
       "value": "Buy milk",
       "done": false
     },
     {
-      "id": Date.now(),
+      "id": v4(),
       "value": "Play with doge",
       "done": false  
     }
