@@ -1,6 +1,7 @@
 import { action, thunk, computed } from 'easy-peasy';
 import database from './orbit';
 import { RegExp } from 'core-js';
+import {v4} from 'uuid';
 
 export const TodoModel = {
   items: [],
@@ -19,7 +20,7 @@ export const TodoModel = {
   addTodo: thunk(async (actions, payload, {getStoreState}) => {
     const db = getStoreState().db.db.db
     await db.put({
-			_id: Date.now(),
+			_id: v4(),
 			value: payload,
 			done: false
     })
