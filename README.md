@@ -19,7 +19,4 @@ There are multiple branches with the different setups
 3. using MobX
 4. using redux
 5. using easy-peasy
-
-## Future development
-
-- implementing orbitdb data store
+6. implementing orbitdb data store with the easy-peasy template
