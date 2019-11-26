@@ -4,6 +4,7 @@ import { TodoContext } from "../TodoContext";
 
 import Todo from "./todo";
 
+// Here we emulate an API call using a Promise
 const APItodos = () => {
   return new Promise(function(resolve, reject) {
     setTimeout(()=>{
@@ -26,8 +27,13 @@ const APItodos = () => {
 export default function TodoList() {
   const [todos, setTodos] = useContext(TodoContext);
 
+  // This is called each time a item in the array, passed as second arg changes.
+  // Since it is empty it will never change and equals to a componentDidMount.
+  // We can use this to initilize our todos with the just loaded ones. :)
+  // 
+  // I hope this answers Issue #2 by captmomo 
   useEffect(() => {
-    APItodos().then(setTodos)
+    APItodos().then((t) => setTodos([...todos].concat(t)))
     return;
   }, [])
 
