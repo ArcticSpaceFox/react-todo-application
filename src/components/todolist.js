@@ -1,11 +1,35 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 
 import { TodoContext } from "../TodoContext";
 
 import Todo from "./todo";
 
+const APItodos = () => {
+  return new Promise(function(resolve, reject) {
+    setTimeout(()=>{
+      resolve([
+        {
+          "id": Date.now(),
+          "value": "I came later from an API ... kinda",
+          "done": false
+        },
+        {
+          "id": Date.now() + 1,
+          "value": "You could implement a real API here as well!",
+          "done": true  
+        }
+      ])
+    }, 3000);
+  })
+}
+
 export default function TodoList() {
   const [todos, setTodos] = useContext(TodoContext);
+
+  useEffect(() => {
+    APItodos().then(setTodos)
+    return;
+  }, [])
 
   // toggleDone
   const toggleDone = (todo) => {
