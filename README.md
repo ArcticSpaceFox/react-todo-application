@@ -1,5 +1,7 @@
 # React Todo with multiple state implementations
 
+![Build and Deploy](https://github.com/Sm03leBr00t/react-todo-application/workflows/Build%20and%20Deploy/badge.svg)
+
 ## Setup
 
 ```
