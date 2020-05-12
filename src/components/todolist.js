@@ -1,13 +1,10 @@
 import React from 'react'
 
-import { v4 } from "uuid";
-
 import Todo from "./todo";
 import { observer } from 'mobx-react';
 
-export default function TodoList(props) {
+function TodoList(props) {
   const { todos, toggleDone, deleteTodo, filteredTodos } = props.store
-
 
   return (
     <div>
