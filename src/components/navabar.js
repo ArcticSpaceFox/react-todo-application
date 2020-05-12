@@ -1,7 +1,17 @@
 import React, { useState } from 'react'
+import { observer } from 'mobx-react'
 
-export default function Navbar() {
+function Navbar(props) {
   const [menu, setMenu] = useState(false)
+  const [value, setValue] = useState("")
+  
+  const {addTodo} = props.store
+
+  const prepareAddTodo = (e) => {
+    e.preventDefault()
+    addTodo(value)
+    setValue("")
+  }
 
   return (
     <div className="navbar has-shadow">
@@ -20,19 +30,21 @@ export default function Navbar() {
       <div className={`navbar-menu ${menu ? "is-active" : ""}`}>
         <div className="navbar-end">
           <div className="navbar-item">
-            <div className="field has-addons">
+            <form onSubmit={prepareAddTodo} className="field has-addons">
               <p className="control is-expanded">
-                <input type="text" className="input" />
+                <input value={value} type="text" onChange={(e) => setValue(e.target.value)} className="input" />
               </p>
               <p className="control">
                 <button className="button is-info has-text-weight-bold">
                   Add Todo
                 </button>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   )
 }
+
+export default observer(Navbar)

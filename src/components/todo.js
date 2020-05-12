@@ -1,19 +1,20 @@
 import React from 'react'
+import { observer } from 'mobx-react'
 
-export default function Todo(props) {
+function Todo(props) {
   return (
     <div className="card">
       <div className="card-content">
         <div className="level">
           <div className="level-left">
             <div className="level-item">
-              <p className={`title ${props.todo.done ? "has-text-primary" : ""}`}>{props.todo.value}</p>
+              <p className={`title ${props.todo.done ? "has-text-grey-light" : ""}`}>{props.todo.value}</p>
             </div>
           </div>
           <div className="level-right">
             <div className="level-item buttons">
-              <button className={`button has-text-weight-bold ${props.todo.done ? "is-warning" : "is-primary"}`}>{props.todo.done ? "Undo" : "Done"}</button>
-              <button className="button is-danger has-text-weight-bold">Delete</button>
+              <button onClick={props.toggleDone.bind(this, props.todo)} className={`button has-text-weight-bold ${props.todo.done ? "is-warning" : "is-primary"}`}>{props.todo.done ? "Undo" : "Done"}</button>
+              <button onClick={props.deleteTodo.bind(this, props.todo)} className="button is-danger has-text-weight-bold">Delete</button>
             </div>
           </div>
         </div>
@@ -21,3 +22,5 @@ export default function Todo(props) {
     </div>
   )
 }
+
+export default observer(Todo)
