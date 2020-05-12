@@ -2,6 +2,8 @@
 
 ![Build and Deploy](https://github.com/Sm03leBr00t/react-todo-application/workflows/Build%20and%20Deploy/badge.svg)
 
+Watch working example at [this page](https://sm03lebr00t.github.io/react-todo-application/)
+
 ## Setup
 
 ```
@@ -22,5 +24,7 @@ There are multiple branches with the different setups
 4. using redux
 5. using easy-peasy
 6. implementing orbitdb data store with the easy-peasy template
+
+The master branch reflects the mobx branch, so that the deployment works
 
 Hope you have fun with this
