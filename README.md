@@ -22,3 +22,5 @@ There are multiple branches with the different setups
 4. using redux
 5. using easy-peasy
 6. implementing orbitdb data store with the easy-peasy template
+
+Hope you have fun with this
